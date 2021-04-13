@@ -10,8 +10,5 @@ keywords:
 home: https://ethereum.org/
 sources:
   - https://github.com/geth/geth
-maintainers:
-  - name: Leo Vigna
-    email: leo@vulcan.link
 
 appVersion: latest

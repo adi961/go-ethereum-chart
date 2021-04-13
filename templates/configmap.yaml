@@ -5,9 +5,10 @@ metadata:
 data:
   config.custom.toml: |
 {{ .Values.config | indent 4 }}
+{{- if .Values.genesis }}
   genesis.custom.json: |
 {{ .Values.genesis | indent 4 }}
-
+{{- end }}
 ---
 
 apiVersion: v1

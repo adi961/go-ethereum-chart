@@ -1,0 +1,62 @@
+
+{{- if .Values.ingress.enabled }}
+{{- $pathType := .Values.ingress.pathType | default "" }}
+{{- $serviceName :=  (include "geth.fullname" .)  }}
+{{- $servicePort := .Values.service.port -}}
+{{- $paths := .Values.ingress.paths -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
+apiVersion: networking.k8s.io/v1beta1
+{{ else }}
+apiVersion: extensions/v1beta1
+{{ end -}}
+kind: Ingress
+metadata:
+{{- if .Values.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+  name: {{ include "geth.fullname" . }}
+  labels:
+    {{- include "geth.selectorLabels" . | nindent 4 }}
+    {{- include "geth.labels" . | nindent 4 }}
+    {{- if .Values.ingress.labels }}
+    {{ toYaml .Values.ingress.labels | indent 4 }}
+    {{- end }}
+spec:
+  {{- if or (.Capabilities.APIVersions.Has "networking.k8s.io/v1") (.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1") }}
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- end }}
+  {{- end }}
+  rules:
+  {{- if .Values.ingress.hosts }}
+  {{- range $host := .Values.ingress.hosts }}
+    - host: {{ tpl $host $ }}
+      http:
+        paths:
+          - path: /rpc
+            backend:
+              serviceName: geth
+              servicePort: 8545
+          - path: /ws
+            backend:
+              serviceName: geth
+              servicePort: 8546
+  {{- end -}}
+  {{- else }}
+    - http:
+        paths:
+          - path: /rpc
+            backend:
+              serviceName: geth
+              servicePort: http
+          - path: /ws
+            backend:
+              serviceName: geth
+              servicePort: ws
+  {{- end -}}
+  {{- if .Values.ingress.tls }}
+  tls:
+{{ tpl (toYaml .Values.ingress.tls | indent 4) . }}
+  {{- end -}}
+{{- end -}}
