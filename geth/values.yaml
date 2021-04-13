@@ -10,7 +10,17 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.10.2"
   command: ["geth"]
-  args: ["--config", "/geth/config/config.custom.toml", "--metrics", "--metrics.addr=0.0.0.0", "--log.json", "--usb=false", "--http.rpcprefix=/rpc", "--ws.rpcprefix=/ws"]
+  args:
+    [
+      "--config",
+      "/geth/config/config.custom.toml",
+      "--metrics",
+      "--metrics.addr=0.0.0.0",
+      "--log.json",
+      "--usb=false",
+      "--http.rpcprefix=/rpc",
+      "--ws.rpcprefix=/ws",
+    ]
 
 initContainer:
   command: ["geth"]
@@ -56,11 +66,7 @@ podAnnotations: {}
 podSecurityContext:
   fsGroup: 1000
 
-securityContext: 
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
+securityContext:
   runAsNonRoot: true
   runAsUser: 1000
 
@@ -86,18 +92,13 @@ serviceP2P:
 prometheus: true
 
 ingress:
-  enabled: true
+  enabled: false
 
   # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: traefik
 
-  annotations: 
-    cert-manager.io/cluster-issuer: vault-issuer
-    kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    external-dns.alpha.kubernetes.io/hostname: "geth.net.quant.sh"
+  annotations: {}
   labels: {}
 
   ## Hostnames.
@@ -105,8 +106,7 @@ ingress:
   ##
   # hosts:
   #   - geth.domain.com
-  hosts: 
-    - geth.net.quant.sh
+  hosts: []
 
   ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
   ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
@@ -115,10 +115,10 @@ ingress:
   ## TLS configuration for Prometheus Ingress
   ## Secret must be manually created in the namespace
   ##
-  tls: 
-    - secretName: geth-tls
-      hosts:
-        - geth.net.quant.sh
+  tls: {}
+    # - secretName: geth-tls
+    #   hosts:
+    #     - geth.domain.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -146,15 +146,15 @@ tolerations: []
 affinity: {}
 
 healthcheck:
-  # readinessProbe:
-  #   failureThreshold: 3
-  #   httpGet:
-  #     path: /ready
-  #     port: 8080
-  #     scheme: HTTP
-  #   periodSeconds: 10
-  #   successThreshold: 1
-  #   timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /ready
+      port: 8080
+      scheme: HTTP
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   livenessProbe:
     failureThreshold: 3
     httpGet:
@@ -179,19 +179,16 @@ config: |
   WSModules = ["admin", "txpool", "net", "web3", "eth"]
   WSOrigins = ["*"]
 
-
 # genesis: false
 
 #Additional Environment Variables
 env: {}
-
 
 syncCheck:
   enabled: true
   image:
     repository: abhome/geth-healthcheck
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
     tag: "release-0.1.0"
     args: []
   env:
@@ -200,18 +197,14 @@ syncCheck:
     MAX_BLOCK_DIFFERENCE: "3"
     MAX_BLOCK_AGE: 30s
     LISTEN: "0.0.0.0:8080"
-    
+
   podSecurityContext:
     fsGroup: 1000
 
   securityContext:
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
     runAsNonRoot: true
     runAsUser: 1000
-  
+
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
