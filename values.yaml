@@ -1,0 +1,187 @@
+# Default values for geth.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ethereum/client-go
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v1.9.24"
+  command: ["geth"]
+  args: ["--config", "/root/config/config.custom.toml", "--metrics", "--metrics.addr=0.0.0.0"]
+
+initContainer:
+  command: ["geth"]
+  args: ["init", "/root/config/genesis.custom.json"]
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+volumes:
+  data:
+    mountPath: /geth/data
+  config:
+    mountPath: /geth/config
+
+persistence:
+  enabled: true
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  size: 20Gi # For mainnet must increase
+
+  # existingClaim:
+  ## An existing directory in the node
+  ## If defined, host directory must be created manually before volume will be bound
+  ## See https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
+  ##
+  # hostPath:
+  #   path: /root/.local/share/io.parity.ethereum
+  #   type: Directory
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+container:
+  ports:
+    http: 8545
+    ws: 8546
+    prometheus: 6060
+    listener: 30303
+    discovery: 30303
+
+service:
+  type: ClusterIP
+  http: 8545
+  ws: 8546
+  prometheus: 6060
+
+serviceP2P:
+  type: NodePort
+  listener: 30303
+  discovery: 30303
+
+prometheus: false
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+healthcheck:
+  readinessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /ready
+      port: 8080
+      scheme: HTTP
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  livenessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /debug/metrics
+      port: 6060
+      scheme: HTTP
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
+config: |
+  [Eth]
+  NetworkId = 1
+  [Node]
+  DataDir = "/home/db-adrian/.ethereum"
+  HTTPHost = "0.0.0.0"
+  HTTPPort = 8545
+  HTTPVirtualHosts = ["*"]
+  HTTPModules = ["admin", "txpool", "net", "web3", "eth"]
+  WSHost = "0.0.0.0"
+  WSPort = 8546
+  WSModules = ["admin", "txpool", "net", "web3", "eth"]
+
+
+genesis: ""
+
+#Additional Environment Variables
+env: {}
+
+
+syncCheck:
+  enabled: true
+  image:
+    repository: abhome/geth-healthcheck
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "release-0.1.0"
+    args: []
+  env:
+    NODE_URL: http://127.0.0.1:8545
+    MAX_BLOCK_DIFFERENCE: 3
+    MAX_BLOCK_AGE: 30s
+    
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+  
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
