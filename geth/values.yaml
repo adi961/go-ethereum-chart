@@ -192,8 +192,7 @@ syncCheck:
     tag: "release-0.1.0"
     args: []
   env:
-    NODE_URL: http://127.0.0.1:8545
-    EXTERNAL_NODE_URL: "https://mainnet.infura.io/v3/b85fd340929e47c68f7f1531caf2667e"
+    NODE_URL: http://127.0.0.1:8545/rpc
     MAX_BLOCK_DIFFERENCE: "3"
     MAX_BLOCK_AGE: 30s
     LISTEN: "0.0.0.0:8080"

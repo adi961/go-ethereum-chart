@@ -3,7 +3,23 @@ entries:
   geth:
   - apiVersion: v2
     appVersion: latest
-    created: "2021-04-13T18:18:53.501069096+02:00"
+    created: "2021-04-14T10:09:05.249266875+02:00"
+    description: A Helm chart for Ethereum geth client
+    digest: 0d43a3d69b6e91a55e9721745f792496052dca7dc08935452c1e91f788ed1e4d
+    home: https://ethereum.org/
+    icon: https://vulcanlink.github.io/charts/assets/img/ethereum.svg
+    keywords:
+    - ethereum
+    name: geth
+    sources:
+    - https://github.com/geth/geth
+    type: application
+    urls:
+    - https://adi961.github.io/go-ethereum-chart/geth-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: latest
+    created: "2021-04-14T10:09:05.248190491+02:00"
     description: A Helm chart for Ethereum geth client
     digest: 79a5c718fa862f9c977677d1ad51f97345e2f63976651bd7ba106ad9c77d3efb
     home: https://ethereum.org/
@@ -19,7 +35,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: latest
-    created: "2021-04-13T18:18:53.500066317+02:00"
+    created: "2021-04-14T10:09:05.247088216+02:00"
     description: A Helm chart for Ethereum geth client
     digest: e7c3a2f87d7df43ac91853ed56fd6f53e3c261b64e29b550306aff1c14967ed4
     home: https://ethereum.org/
@@ -33,4 +49,4 @@ entries:
     urls:
     - https://adi961.github.io/go-ethereum-chart/geth-0.2.0.tgz
     version: 0.2.0
-generated: "2021-04-13T18:18:53.49886487+02:00"
+generated: "2021-04-14T10:09:05.245706589+02:00"
