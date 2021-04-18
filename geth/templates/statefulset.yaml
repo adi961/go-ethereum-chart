@@ -23,6 +23,7 @@ spec:
       labels:
         {{- include "geth.selectorLabels" . | nindent 8 }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -107,7 +108,6 @@ spec:
           resources:
             {{- toYaml .Values.syncCheck.resources | nindent 12 }}
         {{- end }}
-        terminationGracePeriodSeconds: 120
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

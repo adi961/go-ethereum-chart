@@ -26,6 +26,7 @@ initContainer:
   command: ["geth"]
   args: ["init", "/root/config/genesis.custom.json"]
 
+terminationGracePeriodSeconds: 120
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
