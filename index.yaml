@@ -3,9 +3,25 @@ entries:
   geth:
   - apiVersion: v2
     appVersion: latest
-    created: "2021-04-18T14:51:33.326171695+02:00"
+    created: "2021-04-18T15:01:52.855114534+02:00"
     description: A Helm chart for Ethereum geth client
-    digest: ebbb49123f4e937a87ce0d9097ba04a82b5d76a4e5aca2203f7ce76663505c78
+    digest: 6d2674847dbb5c364be59519939ab8e638062b58218af7a985bad8ef2bff0900
+    home: https://ethereum.org/
+    icon: https://vulcanlink.github.io/charts/assets/img/ethereum.svg
+    keywords:
+    - ethereum
+    name: geth
+    sources:
+    - https://github.com/geth/geth
+    type: application
+    urls:
+    - https://adi961.github.io/go-ethereum-chart/geth-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: latest
+    created: "2021-04-18T15:01:52.854063465+02:00"
+    description: A Helm chart for Ethereum geth client
+    digest: cdedc165bedd28938c03913db8543a5e98fe8d05aba1032bcba3ed0a5ba7f645
     home: https://ethereum.org/
     icon: https://vulcanlink.github.io/charts/assets/img/ethereum.svg
     keywords:
@@ -19,7 +35,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: latest
-    created: "2021-04-18T14:51:33.325027736+02:00"
+    created: "2021-04-18T15:01:52.853037663+02:00"
     description: A Helm chart for Ethereum geth client
     digest: 7556d610589b5916d00492270313ae3c5ad6f37576ed8ebb72965bbfc2c71554
     home: https://ethereum.org/
@@ -35,7 +51,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: latest
-    created: "2021-04-18T14:51:33.323935723+02:00"
+    created: "2021-04-18T15:01:52.852093499+02:00"
     description: A Helm chart for Ethereum geth client
     digest: 79a5c718fa862f9c977677d1ad51f97345e2f63976651bd7ba106ad9c77d3efb
     home: https://ethereum.org/
@@ -51,7 +67,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: latest
-    created: "2021-04-18T14:51:33.32287548+02:00"
+    created: "2021-04-18T15:01:52.851114392+02:00"
     description: A Helm chart for Ethereum geth client
     digest: e7c3a2f87d7df43ac91853ed56fd6f53e3c261b64e29b550306aff1c14967ed4
     home: https://ethereum.org/
@@ -65,4 +81,4 @@ entries:
     urls:
     - https://adi961.github.io/go-ethereum-chart/geth-0.2.0.tgz
     version: 0.2.0
-generated: "2021-04-18T14:51:33.321668128+02:00"
+generated: "2021-04-18T15:01:52.849960737+02:00"
