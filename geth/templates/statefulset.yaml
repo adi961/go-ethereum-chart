@@ -92,6 +92,7 @@ spec:
               mountPath: {{ .Values.volumes.config.mountPath }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          
         {{- if .Values.syncCheck.enabled }}
         - name: sync-check
           securityContext:
@@ -106,6 +107,7 @@ spec:
           resources:
             {{- toYaml .Values.syncCheck.resources | nindent 12 }}
         {{- end }}
+        terminationGracePeriodSeconds: 120
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
